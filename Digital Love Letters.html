@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://dear-you-thh.netlify.app/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Digital Love Letters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f0ff;
+            padding: 20px;
+        }
+
+        h1 {
+            color: purple;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        button {
+            background: purple;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .letter {
+            background: white;
+            padding: 10px;
+            margin-top: 15px;
+            border-left: 4px solid purple;
+        }
+
+        small {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Digital Letters 💌</h1>
+
+<input type="text" id="sender" placeholder="Your Name" wfd-id="id0">
+<input type="text" id="receiver" placeholder="Receiver Name" wfd-id="id1">
+<textarea id="message" rows="5" placeholder="Write your letter..."></textarea>
+<button onclick="saveLetter()">Send Letter</button>
+
+<h2>Saved Letters</h2>
+<div id="letters">
+                <div class="letter">
+                    <strong>Juruhhh</strong> → <strong>Dear Alappuzha Sundhariiii....</strong>
+                    <p>so,
+you are missing me right now, aren't you? don't lie
+I can feel it through the WIFI
+distance may keep us apart physically but it cannot reduce what I feel for you not even a little
+I wish I could sit next to you, hold your hand, and remind you that you are never truly alone 
+whenever you miss me, close your  eyes for a second and sleep well
+imaging me smiling at you and kissing you...
+because somewhere, I'am thinking about you too
+I know your life IS incomplete without me alleeeyy...?
+And I will continue annoying you  forever that not a treat. That's a promise 
+Now smile 
+drink water 
+eat some Pazham 
+And Remeber
+you are loved by someone who will bully you forever 
+sincerely your lifelong problem </p>
+                    <small>28/2/2026, 2:44:20 pm</small>
+                </div>
+            </div>
+
+<script>
+    function saveLetter() {
+        let sender = document.getElementById("sender").value;
+        let receiver = document.getElementById("receiver").value;
+        let message = document.getElementById("message").value;
+
+        if (!sender || !receiver || !message) {
+            alert("Fill all fields.");
+            return;
+        }
+
+        let letters = JSON.parse(localStorage.getItem("letters")) || [];
+
+        let newLetter = {
+            sender: sender,
+            receiver: receiver,
+            message: message,
+            time: new Date().toLocaleString()
+        };
+
+        letters.unshift(newLetter);
+        localStorage.setItem("letters", JSON.stringify(letters));
+
+        document.getElementById("message").value = "";
+        loadLetters();
+    }
+
+    function loadLetters() {
+        let letters = JSON.parse(localStorage.getItem("letters")) || [];
+        let container = document.getElementById("letters");
+        container.innerHTML = "";
+
+        letters.forEach(letter => {
+            container.innerHTML += `
+                <div class="letter">
+                    <strong>${letter.sender}</strong> → <strong>${letter.receiver}</strong>
+                    <p>${letter.message}</p>
+                    <small>${letter.time}</small>
+                </div>
+            `;
+        });
+    }
+
+    loadLetters();
+</script>
+
+
+</body></html>
