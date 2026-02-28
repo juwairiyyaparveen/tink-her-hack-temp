@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digital Love Letters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f0ff;
+            padding: 20px;
+        }
+
+        h1 {
+            color: purple;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        button {
+            background: purple;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .letter {
+            background: white;
+            padding: 10px;
+            margin-top: 15px;
+            border-left: 4px solid purple;
+        }
+
+        small {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Digital Letters 💌</h1>
+
+<input type="text" id="sender" placeholder="Your Name">
+<input type="text" id="receiver" placeholder="Receiver Name">
+<textarea id="message" rows="5" placeholder="Write your letter..."></textarea>
+<button onclick="saveLetter()">Send Letter</button>
+
+<h2>Saved Letters</h2>
+<div id="letters"></div>
+
+<script>
+    function saveLetter() {
+        let sender = document.getElementById("sender").value;
+        let receiver = document.getElementById("receiver").value;
+        let message = document.getElementById("message").value;
+
+        if (!sender || !receiver || !message) {
+            alert("Fill all fields.");
+            return;
+        }
+
+        let letters = JSON.parse(localStorage.getItem("letters")) || [];
+
+        let newLetter = {
+            sender: sender,
+            receiver: receiver,
+            message: message,
+            time: new Date().toLocaleString()
+        };
+
+        letters.unshift(newLetter);
+        localStorage.setItem("letters", JSON.stringify(letters));
+
+        document.getElementById("message").value = "";
+        loadLetters();
+    }
+
+    function loadLetters() {
+        let letters = JSON.parse(localStorage.getItem("letters")) || [];
+        let container = document.getElementById("letters");
+        container.innerHTML = "";
+
+        letters.forEach(letter => {
+            container.innerHTML += `
+                <div class="letter">
+                    <strong>${letter.sender}</strong> → <strong>${letter.receiver}</strong>
+                    <p>${letter.message}</p>
+                    <small>${letter.time}</small>
+                </div>
+            `;
+        });
+    }
+
+    loadLetters();
+</script>
+
+</body>
+</html>
